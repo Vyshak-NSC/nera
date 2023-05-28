@@ -1,0 +1,196 @@
+<Board>:
+    id:board
+    name:'board'
+    orientation:'vertical'
+    btn_width:self.width * 0.15
+    canvas:
+        Color:
+            rgba:0.6,0.6,0.6,1
+        RoundedRectangle:
+            pos:self.x,self.top-self.width
+            size:self.width,self.width
+            radius:20,20,20,20
+
+    GridLayout:
+        cols:3
+        id:grid
+        bg_col  : 0.4, 0.7, 2.2, 0
+        padding : self.width*0.06
+        spacing : (self.width - (root.btn_width))/4
+
+        midx    : self.x + root.btn_width*3 +self.padding[0]/1.3 #self.x     + (root.btn_width*1.5) + self.spacing[0] + self.padding[0]
+        leftx   : self.x     + (root.btn_width/2) + self.padding[0]
+        rightx  : self.right - (root.btn_width/2) - self.padding[0]
+
+        midy    : self.top -self.padding[0]/0.887 - self.spacing[0] - root.btn_width*1.45 #- root.width/2
+        topy    : self.top - (root.btn_width/2) - self.padding[0]
+        bottomy : self.top + self.spacing[0] - self.padding[0] - (root.width)
+        
+        len_x   : (self.rightx - self.leftx)
+        len_y   : (self.topy   - self.bottomy)
+        canvas:
+            Color:
+                rgba:0,1,0,1
+            Color:
+                rgba:1,1,1,0.9
+            # Border
+            Line:
+                rectangle: self.leftx, self.bottomy, self.len_x, self.len_y
+                width:2
+            # Horiontal
+            Line:
+                points:self.leftx, self.midy, self.rightx,self.midy
+                width:2
+            # Vertical
+            Line:
+                points:self.midx, self.topy, self.midx, self.bottomy
+                width:2
+            # Diagonal left
+            Line:
+                points:self.leftx, self.topy, self.rightx, self.bottomy
+                width:2
+            # Diagonal right
+            Line:
+                points:self.leftx,self.bottomy, self.rightx, self.topy
+                width:2
+
+        PlayerButton:
+            src:''
+            val:0
+            width:root.btn_width
+            height:root.btn_width
+            on_press: root.click(self)
+            background_color: self.parent.bg_col
+        PlayerButton:
+            src:''
+            val:1
+            width:root.btn_width
+            height:root.btn_width
+            on_press: root.click(self)
+            background_color: self.parent.bg_col
+        PlayerButton:
+            src:''
+            val:2
+            width:root.btn_width
+            height:root.btn_width
+            on_press: root.click(self)
+            background_color: self.parent.bg_col
+        PlayerButton:
+            src:''
+            val:3
+            width:root.btn_width
+            height:root.btn_width
+            on_press: root.click(self)
+            background_color: self.parent.bg_col
+        PlayerButton:
+            src:''
+            val:4
+            width:root.btn_width
+            height:root.btn_width
+            on_press: root.click(self)
+            background_color: self.parent.bg_col
+        PlayerButton:
+            src:''
+            val:5
+            width:root.btn_width
+            height:root.btn_width
+            on_press: root.click(self)
+            background_color: self.parent.bg_col
+        PlayerButton:
+            src:''
+            val:6
+            width:root.btn_width
+            height:root.btn_width
+            on_press: root.click(self)
+            background_color: self.parent.bg_col
+        PlayerButton:
+            src:''
+            val:7
+            width:root.btn_width
+            height:root.btn_width
+            on_press: root.click(self)
+            background_color: self.parent.bg_col
+        PlayerButton:
+            src:''
+            val:8
+            width:root.btn_width
+            height:root.btn_width
+            on_press: root.click(self)
+            background_color: self.parent.bg_col
+
+    Button:
+        size_hint:None, None
+        width:root.width
+        on_press:root.reset_board()
+        background_color:0,0,0,0
+        color:1,0,0,1
+        canvas:
+            Color:
+                rgba:0.6,0.6,0.6,1
+            Scale:
+                x:1
+                y:1
+            RoundedRectangle:
+                size:self.size
+                pos: self.pos
+                radius:10,10,10,10
+        Label:
+            text:'Reset'
+            font_size: 30
+            width:root.width
+            color:0,0.5,1
+            pos:self.parent.pos
+            size_hint:None, None
+
+
+<PlayerButton@Button>:
+    src: None
+    bg:0,0,0,0
+    background_down: ''
+    background_normal: ''
+    size_hint: None, None
+    canvas:
+        Color:
+            rgba: 1,1,1,1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10,10,10,10
+    Image:
+        source: root.src
+        # allow_stretch:False
+	    # size_hint: None, None
+        center: self.parent.center
+        # size: self.size#self.parent.size[0]*2,self.parent.size[1]*2
+
+<RButton@Button>:
+    background_color:0,0,0,0
+    canvas.before:
+        Color:
+            rgba:0.3,0.5,1,1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 5,5,5,5
+<Notify>:
+    id:msg
+    title:'Game Over'
+    size_hint:None,None
+    on_dismiss:app.root.reset_board()
+    size: app.root.width/2,app.root.height/3
+
+    BoxLayout:
+        orientation:'vertical'
+        Label:
+            text: app.root.winner.title() + " Wins!"
+        BoxLayout:
+            spacing:'2dp'
+            size_hint_y:None
+            height: self.parent.height*0.3
+
+            RButton:
+                text:"Quit"
+                on_press:app.Quit
+            RButton:
+                text:"Close"
+                on_press:msg.dismiss(),app.root.reset_board()
