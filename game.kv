@@ -5,7 +5,7 @@
     btn_width:self.width * 0.15
     canvas:
         Color:
-            rgba:0.6,0.6,0.6,1
+            rgba:0.7,0.7,0.7,1
         RoundedRectangle:
             pos:self.x,self.top-self.width
             size:self.width,self.width
@@ -144,24 +144,21 @@
 
 
 <PlayerButton@Button>:
-    src: None
+    src: 0,0,0,0
     bg:0,0,0,0
     background_down: ''
     background_normal: ''
     size_hint: None, None
     canvas:
         Color:
-            rgba: 1,1,1,1
+            rgba: self.src #1,1,1,1
         RoundedRectangle:
             pos: self.pos
             size: self.size
             radius: 10,10,10,10
-    Image:
-        source: root.src
-        # allow_stretch:False
-	    # size_hint: None, None
-        center: self.parent.center
-        # size: self.size#self.parent.size[0]*2,self.parent.size[1]*2
+    # Image:
+    #     source: root.src
+    #     center: self.parent.center
 
 <RButton@Button>:
     background_color:0,0,0,0

@@ -9,8 +9,9 @@ from kivy.uix.boxlayout import BoxLayout
 
 
 # Initiate player pieces
-WHITE = 'white.png'
-BLACK = 'black.png'
+WHITE = [1,0.2,0.2,1] # 'white.png'
+BLACK = [0.2,0.2,1,1] #'black.png'
+EMPTY = [1,1,1,1]
 
 class Notify(Popup):
     def __init__(self, **kwargs):
@@ -66,7 +67,7 @@ class Board(BoxLayout):
         super().__init__(**kwargs)
         self.next = None
         self.winner = ''
-        self.current = ''
+        self.current = 0,0,0,0
         self.turn = WHITE
         self.neighbour = []
         self.selected = None
@@ -126,19 +127,18 @@ class Board(BoxLayout):
             if self.turn == button.src:
                 self.selected = button
                 self.current = button.src
-                button.src = 'blank.png'
+                button.src = EMPTY
                 self.neighbour = self.game.get_neighbour(self.selected.val)
-
         elif not self.next:
             self.next = button
-            if self.game.get_board_pos(self.next.val) in self.neighbour and self.next.src == 'blank.png':
+            if self.game.get_board_pos(self.next.val) in self.neighbour and self.next.src == EMPTY:#'blank.png':
                 self.next.src = self.current
                 self.selected = self.next = None
                 self.turn = WHITE if self.turn == BLACK else BLACK
             else:
                 self.selected.src = self.current
                 self.selected = self.next = None
-        
+
             self.selected = self.next = None
             if self.check_winner(button):
                 game_msg = Notify()
@@ -159,8 +159,8 @@ class Board(BoxLayout):
             elif btn.val in (6,7,8):
                 btn.src = WHITE
             else:
-                btn.src = 'blank.png'
-        self.turn = 'white.png'
+                btn.src = EMPTY
+        self.turn = WHITE
 
         
 class GameApp(App):
